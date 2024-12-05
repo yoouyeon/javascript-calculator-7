@@ -8,9 +8,8 @@ class App {
   async run() {
     const input = await InputView.getInput();
     const customSeparator = App.parseString(input);
-    if (customSeparator) {
-      this.#separator = customSeparator;
-    }
+    if (customSeparator) this.#separator = customSeparator;
+    const numbers = App.extractNumbers(input, this.#separator);
     // 숫자를 더해서 반환
     // 결과 출력
   }
@@ -23,15 +22,25 @@ class App {
   static parseString(input) {
     const SEPERATOR_REGEX = /^\/\/(.*?)\\n/;
     const matched = input.match(SEPERATOR_REGEX);
-    if (matched) {
-      return matched[1].split('');
-    }
+    if (matched) return matched[1].split('');
     return null;
   }
 
-  extractNumbers(input) {
-    // 문자열을 입력받아 숫자를 추출하는 함수
-    // 숫자를 추출하여 배열로 반환
+  /**
+   * @param {string} input - 입력받은 문자열
+   * @param {string[]} separator - 구분자 배열
+   * @returns {number[]} - 숫자 배열을 반환
+   * @description 문자열을 입력받아 숫자를 추출하는 함수
+   */
+  static extractNumbers(input, separator) {
+    let numberString = input;
+    const SEPERATOR_REGEX = /^\/\/(.*?)\\n/;
+    const matched = input.match(SEPERATOR_REGEX);
+    if (matched) numberString = input.replace(SEPERATOR_REGEX, '');
+    return numberString.split(new RegExp(`[${separator.join('')},\\n]`)).map((num) => {
+      if (num === '') return 0;
+      return parseInt(num, 10);
+    });
   }
 
   sum(numbers) {
