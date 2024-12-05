@@ -39,4 +39,17 @@ describe('문자열 계산기 테스트', () => {
       }
     );
   });
+
+  describe('숫자 합산 테스트', () => {
+    test.each([
+      { numbers: [0], expected: 0 },
+      { numbers: [1, 2], expected: 3 },
+      { numbers: [1, 2, 3], expected: 6 },
+    ])(
+      '숫자 배열을 입력받아 합산 결과를 반환한다. (입력값: $numbers, 반환값: $expected)',
+      ({ numbers, expected }) => {
+        expect(App.sum(numbers)).toBe(expected);
+      }
+    );
+  });
 });

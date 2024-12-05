@@ -1,6 +1,7 @@
 // @ts-check
 
 import InputView from './InputView.js';
+import OutputView from './OutputView.js';
 
 class App {
   #separator = [',', ':'];
@@ -10,8 +11,8 @@ class App {
     const customSeparator = App.parseString(input);
     if (customSeparator) this.#separator = customSeparator;
     const numbers = App.extractNumbers(input, this.#separator);
-    // 숫자를 더해서 반환
-    // 결과 출력
+    const result = App.sum(numbers);
+    OutputView.printResult(result);
   }
 
   /**
@@ -43,9 +44,12 @@ class App {
     });
   }
 
-  sum(numbers) {
-    // 숫자를 입력받아 더하는 함수
-    // 더한 값을 반환
+  /**
+   * @param {number[]} numbers - 숫자 배열
+   * @returns {number} - 더한 값을 반환
+   */
+  static sum(numbers) {
+    return numbers.reduce((acc, cur) => acc + cur, 0);
   }
 }
 
