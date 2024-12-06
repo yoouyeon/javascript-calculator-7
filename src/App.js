@@ -9,7 +9,6 @@ class App {
 
   async run() {
     const input = await InputView.getInput();
-    App.validateInput(input);
     this.parseSeparator(input);
     const result = this.calculate(input);
     OutputView.printResult(result);
@@ -93,14 +92,6 @@ class App {
       if (Number.isNaN(num)) throw new CustomError('숫자가 아닌 값이 포함되어 있습니다.');
       if (num < 0) throw new CustomError('음수가 포함되어 있습니다.');
     });
-  }
-
-  /**
-   * @param {string} input - 입력받은 문자열
-   * @description 입력값 유효성 검사 함수
-   */
-  static validateInput(input) {
-    if (input === '') throw new CustomError('입력값이 없습니다.');
   }
 }
 

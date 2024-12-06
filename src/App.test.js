@@ -81,21 +81,5 @@ describe('문자열 계산기 테스트', () => {
         expect(() => App.validateCustomSeparator(separator)).not.toThrow();
       }
     );
-
-    test('유효하지 않은 입력인 경우 에러를 반환한다.', () => {
-      // given
-      const input = '';
-
-      // when, then
-      expect(() => App.validateInput(input)).toThrow('[ERROR]');
-    });
-
-    test('유효한 입력인 경우 에러를 반환하지 않는다.', () => {
-      // given
-      const input = '1,2,3';
-
-      // when, then
-      expect(() => App.validateInput(input)).not.toThrow();
-    });
   });
 });
