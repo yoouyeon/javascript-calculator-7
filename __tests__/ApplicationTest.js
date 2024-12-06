@@ -1,12 +1,6 @@
-import { MissionUtils } from '@woowacourse/mission-utils';
 import App from '../src/App.js';
 import mockQuestions from '../src/mockQuestions.js';
-
-const getLogSpy = () => {
-  const logSpy = jest.spyOn(MissionUtils.Console, 'print');
-  logSpy.mockClear();
-  return logSpy;
-};
+import getLogSpy from '../src/getLogSpy.js';
 
 describe('문자열 계산기', () => {
   test('커스텀 구분자 사용', async () => {
