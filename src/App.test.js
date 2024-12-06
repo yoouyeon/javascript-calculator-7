@@ -9,7 +9,7 @@ describe('문자열 계산기 테스트', () => {
     ])(
       '커스텀 구분자를 사용하는 경우 커스텀 구분자 배열을 반환한다. (입력값: $input, 반환값: $expected)',
       ({ input, expected }) => {
-        expect(App.parseString(input)).toEqual(expected);
+        expect(App.extractCustomSeparator(input)).toEqual(expected);
       }
     );
 
@@ -19,7 +19,7 @@ describe('문자열 계산기 테스트', () => {
     ])(
       '커스텀 구분자를 사용하지 않는 경우 null을 반환한다. (입력값: $input, 반환값: $expected)',
       ({ input, expected }) => {
-        expect(App.parseString(input)).toEqual(expected);
+        expect(App.extractCustomSeparator(input)).toEqual(expected);
       }
     );
   });
@@ -51,5 +51,51 @@ describe('문자열 계산기 테스트', () => {
         expect(App.sum(numbers)).toBe(expected);
       }
     );
+  });
+
+  describe('유효성 검사 테스트', () => {
+    test.each([{ input: [NaN] }, { input: [1, -2] }])(
+      '유효하지 않은 숫자가 포함된 경우 에러를 반환한다. (입력값: $input)',
+      ({ input }) => {
+        expect(() => App.validateNumbers(input)).toThrow('[ERROR]');
+      }
+    );
+
+    test.each([{ input: [1, 2] }, { input: [1, 2, 3] }])(
+      '유효한 숫자가 포함된 경우 에러를 반환하지 않는다. (입력값: $input)',
+      ({ input }) => {
+        expect(() => App.validateNumbers(input)).not.toThrow();
+      }
+    );
+
+    test.each([{ separator: [] }, { separator: [',', ':'] }])(
+      '유효하지 않은 커스텀 구분자인 경우 에러를 반환한다. (입력값: $separator)',
+      ({ separator }) => {
+        expect(() => App.validateCustomSeparator(separator)).toThrow('[ERROR]');
+      }
+    );
+
+    test.each([{ separator: [';'] }])(
+      '유효한 커스텀 구분자인 경우 에러를 반환하지 않는다. (입력값: $separator)',
+      ({ separator }) => {
+        expect(() => App.validateCustomSeparator(separator)).not.toThrow();
+      }
+    );
+
+    test('유효하지 않은 입력인 경우 에러를 반환한다.', () => {
+      // given
+      const input = '';
+
+      // when, then
+      expect(() => App.validateInput(input)).toThrow('[ERROR]');
+    });
+
+    test('유효한 입력인 경우 에러를 반환하지 않는다.', () => {
+      // given
+      const input = '1,2,3';
+
+      // when, then
+      expect(() => App.validateInput(input)).not.toThrow();
+    });
   });
 });
