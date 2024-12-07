@@ -61,7 +61,7 @@ class App {
     if (matched) numberString = input.replace(SEPERATOR_REGEX, '');
     return numberString.split(new RegExp(`[${separator.join('')},\\n]`)).map((num) => {
       if (num === '') return 0;
-      return parseInt(num, 10);
+      return Number(num);
     });
   }
 
